@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orion
+  labels:
+    app: orion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orion
+  template:
+    metadata:
+      labels:
+        app: orion
+    spec:
+      containers:
+      - name: orion
+        image: fiware/orion:3.7.0
+        ports:
+        - containerPort: 1026
+        command: ["/usr/bin/contextBroker"]
+        args:
+          - "-dbhost"
+          - "city1-documentdb-cluster.cluster-c4yo4hoavcxt.ap-northeast-1.docdb.amazonaws.com"
+          - "-dbuser"
+          - "docdbadmin"
+          - "-dbpwd"
+          - "YourSecurePassword123!"
+          - "-db"
+          - "orion"
+          - "-dbAuthMech"
+          - "SCRAM-SHA-1"
+          - "-logLevel"
+          - "DEBUG"  # デバッグレベルに設定
+          - "-dbTimeout"
+          - "30000"
+          - "-dbPoolSize"
+          - "10"
+          - "-ipv4"
+          - "-corsOrigin"
+          - "__ALL"
+          - "-fg"
+          - "-localIp"
+          - "0.0.0.0"  # すべてのインターフェイスでリッスン
+          - "-port"
+          - "1026"     # 明示的にポートを指定
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        readinessProbe:
+          httpGet:
+            path: /version
+            port: 1026
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /version
+            port: 1026
+          initialDelaySeconds: 60
+          periodSeconds: 20
+          timeoutSeconds: 5

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orion-config
+  namespace: default
+data:
+  DB_HOST: "city1-documentdb-cluster.cluster-c4yo4hoavcxt.ap-northeast-1.docdb.amazonaws.com"
+  DB_PORT: "27017"
+  DB_NAME: "orion"
+  LOG_LEVEL: "INFO"

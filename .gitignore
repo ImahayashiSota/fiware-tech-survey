@@ -1,0 +1,28 @@
+# Terraform関連ファイル
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+
+# ログファイル
+*.log
+
+# AWS CLI distやビルド成果物
+aws/dist/
+*.so
+*.so.*
+*.pyc
+__pycache__/
+
+# SSH鍵・機密ファイル（絶対にアップロードしない）
+ssh_keys/
+*.pem
+*.key
+*.pub
+
+# その他の一時ファイル・OS生成ファイル
+.DS_Store
+*.tmp
+*.bak
