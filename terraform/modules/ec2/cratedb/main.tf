@@ -9,24 +9,11 @@ resource "aws_security_group" "cratedb" {
     protocol        = "tcp"
     security_groups = [var.bastion_sg_id]
   }
+    # CrateDB Web UI用のポート - セキュリティグループルールはルートモジュールで定義
+  # EKSノードからの4200ポートへのアクセスは別途定義
   
-  # CrateDB Web UI用のポート
-  ingress {
-    description     = "CrateDB Web UI"
-    from_port       = 4200
-    to_port         = 4200
-    protocol        = "tcp"
-    security_groups = [var.eks_node_sg_id]
-  }
-  
-  # PostgreSQL互換プロトコル用のポート
-  ingress {
-    description     = "CrateDB PostgreSQL Protocol"
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [var.eks_node_sg_id]
-  }
+  # PostgreSQL互換プロトコル用のポート - セキュリティグループルールはルートモジュールで定義
+  # EKSノードからの5432ポートへのアクセスは別途定義
   
   egress {
     from_port   = 0
@@ -39,6 +26,16 @@ resource "aws_security_group" "cratedb" {
     Environment = "${var.env}"
   }
 }
+
+resource "aws_security_group_rule" "allow_bastion_to_cratedb" {
+  type                     = "ingress"
+  from_port                = 4200
+  to_port                  = 4200
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.cratedb.id
+  source_security_group_id = var.bastion_sg_id
+}
+
 
 # CrateDB用EC2
 resource "aws_instance" "cratedb" {
@@ -55,6 +52,7 @@ resource "aws_instance" "cratedb" {
   tags = {
     Name        = "${var.env}-cratedb"
     Environment = "${var.env}"
+    Schedule    = "true"
   }
   lifecycle {
     ignore_changes = [

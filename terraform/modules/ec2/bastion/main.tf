@@ -86,6 +86,7 @@ resource "aws_instance" "bastion" {
   tags = {
     Name = "${var.env}-bastion"
     Environment = "${var.env}"
+    Schedule = "true"
   }
   lifecycle {
     ignore_changes = [

@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quantumleap
+  labels:
+    app: quantumleap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quantumleap
+  template:
+    metadata:
+      labels:
+        app: quantumleap
+    spec:
+      containers:
+      - name: quantumleap
+        image: fiware/quantum-leap:0.8.3
+        ports:
+        - containerPort: 8668
+        env:
+        - name: CRATE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: CRATE_HOST
+        - name: CRATE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: CRATE_PORT
+        - name: ORION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: ORION_URL
+        - name: DEFAULT_LIMIT
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: DEFAULT_LIMIT
+        - name: CACHE_QUERIES
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: CACHE_QUERIES
+        - name: USE_GEOCODING
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: USE_GEOCODING
+        - name: LOGLEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: LOGLEVEL
+        - name: USE_TIMESCALE
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: USE_TIMESCALE
+        - name: INSERT_MAX_RETRIES
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: INSERT_MAX_RETRIES
+        - name: INSERT_RETRY_WAIT
+          valueFrom:
+            configMapKeyRef:
+              name: quantumleap-config
+              key: INSERT_RETRY_WAIT
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        readinessProbe:
+          httpGet:
+            path: /version
+            port: 8668
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /version
+            port: 8668
+          initialDelaySeconds: 120
+          periodSeconds: 20
+          timeoutSeconds: 5

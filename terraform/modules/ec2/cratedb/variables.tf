@@ -50,4 +50,5 @@ variable "bastion_sg_id" {
 variable "eks_node_sg_id" {
   description = "EKSノードのセキュリティグループID"
   type        = string
+  default = "sg-09a56159bbd3434a7" # デフォルト値は適宜変更してください
 }

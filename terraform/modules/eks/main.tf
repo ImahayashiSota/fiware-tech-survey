@@ -49,7 +49,8 @@ resource "aws_eks_node_group" "this" {
 
   # EC2インスタンスに適用されるタグ
   tags = {
-    "Name" = "${local.cluster_name}-worker"
+    "Name"     = "${local.cluster_name}-worker-node"
+    "Schedule" = "true"
   }
 
   depends_on = [
@@ -66,11 +67,4 @@ data "aws_eks_cluster" "this" {
 
 data "aws_eks_cluster_auth" "this" {
   name = aws_eks_cluster.this.name
-}
-
-# Kubernetes プロバイダー設定
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.this.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.this.token
 }

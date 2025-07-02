@@ -26,3 +26,8 @@ ssh_keys/
 .DS_Store
 *.tmp
 *.bak
+
+memo.txt
+
+# curlディレクトリのファイルを除外
+curl/

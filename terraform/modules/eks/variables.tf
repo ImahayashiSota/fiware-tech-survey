@@ -97,3 +97,27 @@ variable "documentdb_security_group_id" {
   type        = string
   default     = ""
 }
+
+variable "cratedb_security_group_id" {
+  description = "CrateDBのセキュリティグループID"
+  type        = string
+  default     = ""
+}
+
+variable "create_documentdb_sg_rules" {
+  description = "DocumentDBセキュリティグループルールをEKSモジュールで作成するかどうか"
+  type        = bool
+  default     = true
+}
+
+variable "create_cratedb_sg_rules" {
+  description = "CrateDBセキュリティグループルールをEKSモジュールで作成するかどうか"
+  type        = bool
+  default     = false
+}
+
+variable "create_bastion_sg_rules" {
+  description = "Bastionセキュリティグループルールをモジュール内で管理するかどうか"
+  type        = bool
+  default     = true
+}

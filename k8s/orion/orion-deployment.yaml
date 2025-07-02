@@ -31,8 +31,9 @@ spec:
           - "orion"
           - "-dbAuthMech"
           - "SCRAM-SHA-1"
+          - "-dbDisableRetryWrites"
           - "-logLevel"
-          - "DEBUG"  # デバッグレベルに設定
+          - "INFO"  # DEBUGからINFOに変更
           - "-dbTimeout"
           - "30000"
           - "-dbPoolSize"

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quantumleap-config
+  namespace: default
+data:
+  # CrateDBの接続情報
+  CRATE_HOST: 10.0.0.37  # デプロイ時に実際のCrateDBのIPアドレスに置き換える
+  CRATE_PORT: "4200"  # CrateDBのデフォルトポート
+  
+  # OrionのURL
+  ORION_URL: "http://orion:1026"  # Kubernetes内部のサービス名を使用
+  
+  # QuantumLeapの設定
+  DEFAULT_LIMIT: "10000"
+  CACHE_QUERIES: "true"
+  USE_GEOCODING: "false"
+  LOGLEVEL: "DEBUG"  # ログレベルをDEBUGに設定
+  
+  # 時間関連の設定
+  USE_TIMESCALE: "false"
+  INSERT_MAX_RETRIES: "10"
+  INSERT_RETRY_WAIT: "3"

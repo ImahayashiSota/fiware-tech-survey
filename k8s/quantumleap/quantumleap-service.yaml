@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quantumleap
+  labels:
+    app: quantumleap
+spec:
+  selector:
+    app: quantumleap
+  ports:
+  - port: 8668
+    targetPort: 8668
+    protocol: TCP
+    name: http
+  type: ClusterIP

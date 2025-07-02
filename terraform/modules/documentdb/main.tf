@@ -70,6 +70,7 @@ resource "aws_docdb_cluster" "documentdb" {
   tags = {
     Name        = "${var.env}-documentdb-cluster"
     Environment = var.env
+    Schedule    = "true"
   }
 }
 
