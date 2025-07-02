@@ -58,18 +58,5 @@ kubectl apply -f k8s/orion/
 kubectl apply -f k8s/quantumleap/
 ```
 
-### 3. 動作確認
-```bash
-# Orion Context Broker テスト
-./curl/orion
-
-# CrateDB接続確認
-./curl/cratedb
-
-# QuantumLeap テスト
-./curl/quantumleap
-```
-
 ## 関連資料
 - memo.txt: 開発メモ・注意事項
-- output.json, output_long.json: システム出力ログ
